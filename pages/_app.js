@@ -6,7 +6,10 @@ import '../styles/globals.css';
 function MyApp({ Component, pageProps }) {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
+      <PersistGate
+        loading={null}
+        persistor={persistor}
+      >
         <Component {...pageProps} />
       </PersistGate>
     </Provider>

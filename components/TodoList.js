@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTodo, removeTodo } from '../redux/action';
+import { addTodo, removeTodo } from '../redux/slice/todo';
+import { useLoginMutation } from '../services/auth';
 
 const TodoList = () => {
   const [inputEvent, setInputEvent] = useState('');
@@ -20,11 +21,11 @@ const TodoList = () => {
     }
   };
 
+  const [login, { isLoading }] = useLoginMutation();
+
   return (
     <div className='flex flex-col gap-4 p-8 rounded-lg shadow-lg space-y-8'>
-      <h2 className='flex justify-center font-bold text-orange-300 text-xl'>
-        TODO
-      </h2>
+      <h2 className='flex justify-center font-bold text-orange-300 text-xl'>TODO</h2>
       <div className='space-x-4'>
         <input
           type='text'
@@ -35,7 +36,7 @@ const TodoList = () => {
           className='pl-4 p-3 border-2 border-orange-200 w-96 rounded-md outline-orange-200'
         />
       </div>
-
+      {isLoading}
       {selector.map((item) => {
         return (
           <div
@@ -43,8 +44,11 @@ const TodoList = () => {
             className='flex justify-between border-b border-orange-100 !mt-3'
           >
             <p className='font-normal italic'>{item.data}</p>
+
             <button
-              onClick={() => dispatch(removeTodo(item.id))}
+              onClick={() => {
+                dispatch(removeTodo(item.id));
+              }}
               className='px-3 rounded-md text-grey hover:text-orange-400'
             >
               X
@@ -52,6 +56,14 @@ const TodoList = () => {
           </div>
         );
       })}
+      <button
+        onClick={async () => {
+          const user = await login(666).unwrap();
+          console.log(user);
+        }}
+      >
+        Login
+      </button>
     </div>
   );
 };
