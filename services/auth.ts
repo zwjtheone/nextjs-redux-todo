@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { RootState } from '../redux/store';
+import { REHYDRATE } from 'redux-persist';
 
 export interface User {
   first_name: string;
@@ -28,6 +29,11 @@ export const api = createApi({
       return headers;
     }
   }),
+  extractRehydrationInfo(action, { reducerPath }) {
+    if (action.type === REHYDRATE) {
+      return action.payload[reducerPath];
+    }
+  },
   endpoints: (builder) => ({
     login: builder.mutation<UserResponse, LoginRequest>({
       query: (credentials) => ({
