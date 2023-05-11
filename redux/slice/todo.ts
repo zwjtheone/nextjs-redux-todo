@@ -14,7 +14,8 @@ const slice = createSlice({
     addTodo: (state, { payload: data }: PayloadAction<string>) => {
       state.list = [...state.list, { data, id: new Date().getTime().toString() }];
     },
-    removeTodo: (state, { payload: { id } }: PayloadAction<{ id: string }>) => {
+    removeTodo: (state, { payload: id }: PayloadAction<{ id: string }>) => {
+      console.log(id);
       state.list = state.list.filter((newItem) => newItem.id !== id);
     }
   }

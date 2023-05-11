@@ -43,7 +43,9 @@ const TodoList = () => {
             key={item.id}
             className='flex justify-between border-b border-orange-100 !mt-3'
           >
-            <p className='font-normal italic'>{item.data}</p>
+            <p className='font-normal italic'>
+              {item.data}-{item.id}
+            </p>
 
             <button
               onClick={() => {
